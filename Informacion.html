@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Informacion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d0d0d;
+      color: #f2f2f2;
+    }
+
+    h2 {
+      text-align: center;
+      color: #b37ddf;
+      font-size: 2.5em;
+      margin-top: 40px;
+    }
+
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .producto-card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(179, 125, 223, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .producto-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(179, 125, 223, 0.4);
+    }
+
+    .producto-card h3 {
+      color: #d3a3ff;
+      font-size: 1.4em;
+      margin-bottom: 10px;
+    }
+
+    .producto-card p {
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+
+    .boton {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #b37ddf;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .boton:hover {
+      background-color: #a34bd8;
+    }
+
+    /* Estilo para centrar la tarjeta Botoz */
+    .botox-card {
+      grid-column: 1 / -1;
+      max-width: 400px;
+      margin: 20px auto 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Nuestros Productos</h2>
+
+  <div class="productos-grid">
+
+    <div class="producto-card">
+      <h3>Pantera Aminoácidos</h3>
+      <p>Protector térmico y reponedor de aminoácidos. Protege el cabello del calor y fortalece la fibra capilar, dejándolo sano y brillante.</p>
+      <a class="boton" href="./Pantera.html">Más Información</a>
+    </div>
+
+    <div class="producto-card">
+      <h3>Puntas de Diamante</h3>
+      <p>Línea vegana sin formol con nanotecnología. Restaura la fibra capilar con extractos de cebolla roja, Cannabis, aminoácidos y vitamina E para un brillo tipo diamante.</p>
+      <a class="boton" href="./PuntaDiamante.html">Más Información</a>
+    </div>
+
+    <div class="producto-card">
+      <h3>Infinity Pro</h3>
+      <p>Keratina profesional sin formol. Reestructura y alisa el cabello sin dañarlo. Ideal para obtener un efecto liso duradero y natural.</p>
+      <a class="boton" href="./InfintyPro.html">Más Información</a>
+    </div>
+
+    <div class="producto-card botox-card">
+      <h3>Botoz (Diamond Botox)</h3>
+      <p>Tratamiento intensivo con ceramidas y vitaminas. Repara puntas abiertas, reduce el frizz y aporta brillo extremo al cabello maltratado.</p>
+      <a class="boton" href="./Botoz.html">Más Información</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
