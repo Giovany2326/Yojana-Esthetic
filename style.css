@@ -210,68 +210,13 @@ section {
     color: var(--main-color);
 }
 
-.header .cart-items-container {
-    position: absolute;
-    top: 100%; right: -100%;
-    height: calc(100vh - 9.5rem);
-    width: 35rem;
-    background: #fff;
-    padding: 0 1.5rem;
-    transition: right 0.3s ease;
-}
 
-.header .cart-items-container.active {
-    right: 0;
-}
-
-.header .cart-items-container .cart-item {
-    position: relative;
-    margin: 2rem 0;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.header .cart-items-container .cart-item .fa-times {
-    position: absolute;
-    top: 1rem; right: 1rem;
-    font-size: 2rem;
-    cursor: pointer;
-    color: var(--black);
-}
-
-.header .cart-items-container .cart-item .fa-times:hover {
-    color: var(--main-color);
-}
-
-.header .cart-items-container .cart-item img {
-    height: 7rem;
-    width: 7rem;
-    object-fit: cover;
-    border-radius: 0.5rem;
-}
-
-.header .cart-items-container .cart-item .content h3 {
-    font-size: 2rem;
-    color: var(--black);
-    padding-bottom: .5rem;
-}
-
-.header .cart-items-container .cart-item .content .price {
-    font-size: 1.5rem;
-    color: var(--main-color);
-}
-
-.header .cart-items-container .btn {
-    width: 100%;
-    text-align: center;
-}
 
 .Inicio{
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background:url(../Mami/imagenes/fondo.png) no-repeat;
+    background:url(./imagenes/fondo.png) no-repeat;
     background-size: cover;
     background-position: center;
 }

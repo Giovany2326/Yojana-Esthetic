@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recomiéndame un Tratamiento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --main-color: #b37ddf;
+      --accent-color: #a34bd8;
+      --black: #0d0d0d;
+      --bg: #0d0d0d;
+      --text-light: #eee;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-light);
+      padding: 3rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      color: var(--main-color);
+      margin-bottom: 3rem;
+    }
+
+    .formulario {
+      max-width: 600px;
+      margin: auto;
+      background: #1a0f2d;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(179, 125, 223, 0.2);
+    }
+
+    label {
+      display: block;
+      margin: 1.5rem 0 0.5rem;
+      font-size: 1.7rem;
+    }
+
+    select {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 1.6rem;
+      background-color: #2c1e3e;
+      color: #fff;
+      border: none;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.7rem;
+      color: #fff;
+      background: linear-gradient(45deg, var(--main-color), var(--accent-color));
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background: var(--accent-color);
+    }
+
+    #resultado {
+      margin-top: 2rem;
+      font-size: 1.8rem;
+      color: #fff;
+      background: #2c1e3e;
+      padding: 1.5rem;
+      border-radius: 10px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <h1>Recomiéndame un Tratamiento</h1>
+
+  <div class="formulario">
+    <label for="tipoCabello">Tipo de Cabello:</label>
+    <select id="tipoCabello">
+      <option value="">Seleccione...</option>
+      <option value="liso">Liso</option>
+      <option value="ondulado">Ondulado</option>
+      <option value="crespo">Crespo</option>
+    </select>
+
+    <label for="nivelDanio">Nivel de Daño:</label>
+    <select id="nivelDanio">
+      <option value="">Seleccione...</option>
+      <option value="sano">Sano</option>
+      <option value="ligeramente_danado">Ligeramente Dañado</option>
+      <option value="muy_danado">Muy Dañado</option>
+    </select>
+
+    <label for="alisadoPrevio">¿Ha tenido alisado antes?</label>
+    <select id="alisadoPrevio">
+      <option value="">Seleccione...</option>
+      <option value="si">Sí</option>
+      <option value="no">No</option>
+    </select>
+
+    <button onclick="recomendarTratamiento()">Ver Recomendación</button>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function recomendarTratamiento() {
+      const tipoCabello = document.getElementById("tipoCabello").value;
+      const nivelDanio = document.getElementById("nivelDanio").value;
+      const alisadoPrevio = document.getElementById("alisadoPrevio").value;
+
+      let resultado = "";
+
+      if (!tipoCabello || !nivelDanio || !alisadoPrevio) {
+        resultado = "Por favor selecciona todas las opciones para obtener una recomendación.";
+      } else if (nivelDanio === "muy_danado") {
+        resultado = "Te recomendamos hacer primero una hidratación profunda antes de aplicar cualquier alisado.";
+      } else if (alisadoPrevio === "si") {
+        resultado = "Como ya has tenido alisado antes, el <strong>Alisado Infinity Pro</strong> es ideal para mantener y prolongar los resultados anteriores.";
+      } else if (tipoCabello === "liso") {
+        resultado = "Tu cabello ya es liso, no necesitas alisado. Te recomendamos una hidratación o <strong>Botox Capilar</strong> para mantenerlo saludable.";
+      } else if (tipoCabello === "ondulado") {
+        resultado = "Para cabello ondulado, te recomendamos el <strong>Alisado Pantera</strong> que deja un efecto natural, sin frizz y con brillo.";
+      } else if (tipoCabello === "crespo") {
+        resultado = "Si tu cabello es crespo y nunca ha sido alisado, el <strong>Infinity Pro</strong> es ideal por su poder de alisado más intenso y duradero.";
+      } else {
+        resultado = "No se pudo generar una recomendación, por favor revisa las opciones.";
+      }
+
+      document.getElementById("resultado").innerHTML = resultado;
+    }
+  </script>
+</body>
+</html>

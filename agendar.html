@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserva de Citas</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .section-title {
+      font-size: 4rem;
+      color: #c084fc;
+      text-shadow: 0 0 15px #a855f7;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      background: #1a0f2d;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(163, 75, 216, 0.5);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 1.6rem;
+      border-radius: 10px;
+      border: none;
+    }
+
+    #calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .date-box {
+      background: #1f1f1f;
+      padding: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .date-box:hover {
+      background: #3c185b;
+    }
+
+    .date-box.occupied {
+      background: #8b0000;
+      color: #fff;
+      cursor: not-allowed;
+    }
+
+    .times {
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .times.active {
+      display: block;
+    }
+
+    .times select {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.6rem;
+      border-radius: 10px;
+    }
+
+    .btn-whatsapp {
+      margin-top: 2rem;
+      background: linear-gradient(45deg, #b37ddf, #a34bd8);
+      color: #fff;
+      padding: 1rem 2rem;
+      font-size: 1.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-whatsapp:hover {
+      background: #a34bd8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="section-title">¡Reserva Tu Cita Hoy!</h1>
+
+  <form id="form">
+    <input type="text" id="nombre" placeholder="Tu Nombre" required>
+    <select id="servicio" required>
+      <option value="">Selecciona un tratamiento</option>
+      <option value="Alisado Pantera">Alisado Pantera</option>
+      <option value="Infinity Pro">Infinity Pro</option>
+    </select>
+
+    <select id="hora" class="times">
+      <option value="">Selecciona una hora</option>
+    </select>
+
+    <a id="btnWhatsApp" class="btn-whatsapp" href="#" target="_blank">Agendar por WhatsApp</a>
+  </form>
+
+  <h2 class="section-title">Fechas Disponibles</h2>
+  <div id="calendar"></div>
+
+  <script>
+    const fechas = {
+      "2025-06-25": ["10:00", "11:00", "14:00"],
+      "2025-06-26": ["9:00", "12:00", "15:00"],
+      "2025-06-27": ["10:00", "13:00"],
+      "2025-06-28": [],
+      "2025-06-29": ["9:00", "11:00", "16:00"]
+    };
+
+    const calendar = document.getElementById('calendar');
+    const selectHora = document.getElementById('hora');
+    const btnWhatsApp = document.getElementById('btnWhatsApp');
+    const form = document.getElementById('form');
+
+    const today = new Date();
+    for (let i = 0; i < 15; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      const fechaStr = date.toISOString().split('T')[0];
+
+      const div = document.createElement('div');
+      div.classList.add('date-box');
+
+      const disponible = fechas[fechaStr];
+      if (disponible && disponible.length === 0) {
+        div.classList.add('occupied');
+        div.innerText = `${date.getDate()}/${date.getMonth() + 1}\nOcupado`;
+      } else if (disponible) {
+        div.innerText = `${date.getDate()}/${date.getMonth() + 1}\nTurnos: ${disponible.length}`;
+        div.addEventListener('click', () => {
+          selectHora.innerHTML = `<option value="">Selecciona una hora</option>`;
+          disponible.forEach(hora => {
+            const opt = document.createElement('option');
+            opt.value = hora;
+            opt.innerText = hora;
+            selectHora.appendChild(opt);
+          });
+          selectHora.classList.add('active');
+          selectHora.setAttribute('data-fecha', fechaStr);
+        });
+      } else {
+        div.classList.add('occupied');
+        div.innerText = `${date.getDate()}/${date.getMonth() + 1}\nNo disponible`;
+      }
+
+      calendar.appendChild(div);
+    }
+
+    btnWhatsApp.addEventListener('click', (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const servicio = document.getElementById('servicio').value;
+      const hora = selectHora.value;
+      const fecha = selectHora.getAttribute('data-fecha');
+
+      if (!nombre || !servicio || !hora || !fecha) {
+        alert("Completa todos los campos antes de agendar.");
+        return;
+      }
+
+      const mensaje = `Hola, soy ${nombre}. Quiero agendar una cita para el tratamiento "${servicio}" el día ${fecha} a las ${hora}.`;
+      const numero = "573108451021";
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, "_blank");
+    });
+  </script>
+
+</body>
+</html>
