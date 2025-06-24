@@ -103,74 +103,169 @@
 </section>
 
 <section class="Menu" id="Menu">
-    <h1 class="heading"> Nuestro <span>menu</span> </h1>
+  <h1 class="heading"> Nuestro <span>menu</span> </h1>
 
-    <div class="box-container">
+  <div class="box-container">
+    <style>
+      .disponible {
+        font-weight: bold;
+        margin-top: 8px;
+        color: #79ff8f;
+      }
+      .agotado {
+        font-weight: bold;
+        margin-top: 8px;
+        color: #ff6b6b;
+      }
+      .producto-info {
+        margin-top: 10px;
+        text-align: center;
+        background: #f4f4f4;
+        padding: 15px;
+        border-radius: 10px;
+        display: none;
+      }
+      .producto-info img {
+        max-width: 200px;
+        margin-bottom: 10px;
+      }
+    </style>
 
-            <style>
-        .disponible {
-            font-weight: bold;
-            margin-top: 8px;
-            color: #79ff8f; /* verde suave */
+    <div class="box">
+      <img src="imagenes/Shampoo.png" alt="">
+      <h3>Shampoo Morado</h3>
+      <div class="price">$35.000</div>
+      <div class="disponible">Cantidad disponible: 5</div>
+      <a href="#" class="btn">Comprar Por WhatsApp</a>
+    </div>
+
+    <div class="box">
+      <img src="imagenes/productos/acondicionador.png" alt="">
+      <h3>Acondicionador</h3>
+      <div class="price">$35.000</div>
+      <div class="disponible">Cantidad disponible: 3</div>
+      <a href="#" class="btn">Comprar Por WhatsApp</a>
+    </div>
+
+    <div class="box">
+      <img src="imagenes/productos/shampoo amarillo.png" alt="">
+      <h3>Shampoo Amarillo</h3>
+      <div class="price">$35.000</div>
+      <div class="agotado">Agotado</div>
+    </div>
+
+    <div class="box">
+      <img src="imagenes/productos/silicona.png" alt="">
+      <h3>Silicona</h3>
+      <div class="price">$40.000</div>
+      <div class="disponible">Cantidad disponible: 2</div>
+      <a href="#" class="btn">Comprar Por WhatsApp</a>
+    </div>
+
+    <div class="box">
+      <img src="imagenes/productos/Anticaida.png" alt="">
+      <h3>Anticaida</h3>
+      <div class="price">$30.000</div>
+      <div class="agotado">Agotado</div>
+    </div>
+
+    <div class="box">
+      <img src="imagenes/productos/shampoo marron.png" alt="">
+      <h3>Anticaspa</h3>
+      <div class="price">$35.000</div>
+      <div class="disponible">Cantidad disponible: 6</div>
+      <a href="#" class="btn">Comprar Por WhatsApp</a>
+    </div>
+  </div>
+
+  <div id="producto-info" class="producto-info"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBub2DeES4_AbB3FutX74htaLnbKeKyT9Y",
+      authDomain: "yojanaesthetic-98183.firebaseapp.com",
+      projectId: "yojanaesthetic-98183",
+      databaseURL: "https://yojanaesthetic-28672-default-rtdb.firebaseio.com/",
+      storageBucket: "yojanaesthetic-98183.appspot.com",
+      messagingSenderId: "340253599496",
+      appId: "1:340253599496:web:936569d6368347467ceebd",
+      measurementId: "G-QQDNL0XPV6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    async function actualizarStock(nombreProducto, boton) {
+      const productoRef = ref(db, "productos/" + nombreProducto);
+      const snapshot = await get(productoRef);
+
+      if (snapshot.exists()) {
+        let stock = snapshot.val().stock;
+
+        if (stock > 0) {
+          stock -= 1;
+          await update(productoRef, { stock });
+
+          const cantidadDiv = boton.parentElement.querySelector('.disponible');
+          if (stock > 0) {
+            cantidadDiv.innerText = `Cantidad disponible: ${stock}`;
+          } else {
+            cantidadDiv.innerText = 'Agotado';
+            cantidadDiv.className = 'agotado';
+            boton.remove();
+          }
+        } else {
+          alert("Producto agotado.");
         }
+      }
+    }
 
-        .agotado {
-            font-weight: bold;
-            margin-top: 8px;
-            color: #ff6b6b; /* rojo suave */
+    document.addEventListener("DOMContentLoaded", async () => {
+      const botones = document.querySelectorAll(".box .btn");
+      const productoInfo = document.getElementById("producto-info");
+
+      for (const btn of botones) {
+        const box = btn.closest(".box");
+        const nombre = box.querySelector("h3").innerText;
+        const imagen = location.origin + "/" + box.querySelector("img").getAttribute("src");
+
+        const productoRef = ref(db, "productos/" + nombre);
+        const snapshot = await get(productoRef);
+
+        if (snapshot.exists()) {
+          const stock = snapshot.val().stock;
+          const estado = box.querySelector(".disponible, .agotado");
+
+          if (stock > 0) {
+            if (estado) estado.innerText = `Cantidad disponible: ${stock}`;
+          } else {
+            if (estado) {
+              estado.innerText = "Agotado";
+              estado.className = "agotado";
+            }
+            btn.remove();
+          }
+
+          btn.addEventListener("click", () => {
+            actualizarStock(nombre, btn);
+            productoInfo.innerHTML = `
+              <img src="${imagen}" alt="${nombre}">
+              <h3>${nombre}</h3>
+              <p>Gracias por tu compra, serás redirigido a WhatsApp.</p>
+            `;
+            productoInfo.style.display = "block";
+           const mensaje = `Hola, quiero comprar el producto: ${nombre}%0AImagen: ${imagen}`;
+           window.open(`https://wa.me/573108451021?text=${mensaje}`, '_blank');
+
+          });
         }
-        </style>
-
-    <div class="box">
-            <img src="imagenes/Shampoo.png" alt="">
-            <h3>Shampoo Morado</h3>
-            <div class="price">$35.000</div>
-            <div class="disponible">Cantidad disponible: 5</div>
-            <a href="https://wa.me/573108451021?text=Quiero%20comprar%20el%20Shampoo%20Morado" class="btn">Comprar Por WhatsApp</a>
-    </div>
-
-    <div class="box">
-            <img src="imagenes/productos/acondicionador.png" alt="">
-            <h3>Acondicionador</h3>
-            <div class="price">$35.000</div>
-            <div class="disponible">Cantidad disponible: 3</div>
-            <a href="https://wa.me/573108451021?text=Quiero%20comprar%20el%20Acondicionador" class="btn">Comprar Por WhatsApp</a>
-    </div>
-
-    <div class="box">
-            <img src="imagenes/productos/shampoo amarillo.png" alt="">
-            <h3>Shampoo Amarillo</h3>
-            <div class="price">$35.000</div>
-            <div class="agotado">Agotado</div>
-    </div>
-
-    <div class="box">
-            <img src="imagenes/productos/silicona.png" alt="">
-            <h3>Silicona</h3>
-            <div class="price">$40.000</div>
-            <div class="disponible">Cantidad disponible: 2</div>
-            <a href="https://wa.me/573108451021?text=Quiero%20comprar%20la%20Silicona" class="btn">Comprar Por WhatsApp</a>
-    </div>
-
-    <div class="box">
-            <img src="imagenes/productos/Anticaida.png" alt="">
-            <h3>Anticaida</h3>
-            <div class="price">$30.000</div>
-            <div class="agotado">Agotado</div>
-        </div>
-
-    <div class="box">
-            <img src="imagenes/productos/shampoo marron.png" alt="">
-            <h3>Anticaspa</h3>
-            <div class="price">$35.000</div>
-            <div class="disponible">Cantidad disponible: 6</div>
-            <a href="https://wa.me/573108451021?text=Quiero%20comprar%20el%20Shampoo%20Anticaspa" class="btn">Comprar Por WhatsApp</a>
-    </div>
-
-
-
-    </div>
-    </section>
+      }
+    });
+  </script>
+</section>
 
 <!--menu section ends-->
 

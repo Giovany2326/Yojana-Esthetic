@@ -9,22 +9,26 @@
       --main-color: #b37ddf;
       --accent-color: #a34bd8;
       --black: #0d0d0d;
-      --bg: #0d0d0d;
+      --bg: #14021f;
       --text-light: #eee;
     }
 
     body {
-      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
       background-color: var(--bg);
       color: var(--text-light);
-      padding: 3rem;
+      font-family: 'Roboto', sans-serif;
+      overflow-x: hidden;
     }
 
     h1 {
       text-align: center;
       font-size: 3rem;
       color: var(--main-color);
+      margin-top: 2rem;
       margin-bottom: 3rem;
+      text-shadow: 0 0 10px #a34bd866;
     }
 
     .formulario {
@@ -33,7 +37,7 @@
       background: #1a0f2d;
       padding: 2rem;
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(179, 125, 223, 0.2);
+      box-shadow: 0 0 15px rgba(179, 125, 223, 0.3);
     }
 
     label {
@@ -69,13 +73,15 @@
     }
 
     #resultado {
-      margin-top: 2rem;
-      font-size: 1.8rem;
-      color: #fff;
-      background: #2c1e3e;
+      background-color: #2e1b44;
       padding: 1.5rem;
-      border-radius: 10px;
-      line-height: 1.6;
+      border-radius: 12px;
+      margin-top: 1.5rem;
+      font-size: 1.6rem;
+      max-width: 100%;
+      word-wrap: break-word;
+      white-space: normal;
+      box-sizing: border-box;
     }
   </style>
 </head>

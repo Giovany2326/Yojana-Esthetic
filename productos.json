@@ -1,0 +1,10 @@
+{
+  "productos": {
+    "Shampoo Morado": { "stock": 5 },
+    "Acondicionador": { "stock": 3 },
+    "Shampoo Amarillo": { "stock": 0 },
+    "Silicona": { "stock": 2 },
+    "Anticaida": { "stock": 0 },
+    "Anticaspa": { "stock": 6 }
+  }
+}
